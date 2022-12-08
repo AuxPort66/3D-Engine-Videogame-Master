@@ -149,7 +149,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AppAbout.cpp" />
     <ClCompile Include="AppConsole.cpp" />
+    <ClCompile Include="AppConfiguration.cpp" />
+    <ClCompile Include="AppHardware.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AppProperties.cpp" />
     <ClCompile Include="ImGUI\include\imgui.cpp" />
@@ -211,11 +214,15 @@
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleProgram.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
+    <ClCompile Include="ModuleRenderExcercise.cpp" />
     <ClCompile Include="ModuleTexture.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppAbout.h" />
     <ClInclude Include="AppConsole.h" />
+    <ClInclude Include="AppConfiguration.h" />
+    <ClInclude Include="AppHardware.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="AppProperties.h" />
     <ClInclude Include="debugdraw.h" />
@@ -315,6 +322,7 @@
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleRender.h" />
+    <ClInclude Include="ModuleRenderExcercise.h" />
     <ClInclude Include="ModuleTexture.h" />
     <ClInclude Include="ModuleWindow.h" />
   </ItemGroup>
