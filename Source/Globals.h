@@ -14,8 +14,12 @@ enum update_status
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
+#define MAX_SCREEN_WIDTH 1920
+#define MAX_SCREEN_HEIGHT 1080
+#define MIN_SCREEN_WIDTH 640
+#define MIN_SCREEN_HEIGHT 480
 #define FULLSCREEN false
 #define BORDERLESS false
 #define RESIZABLE false
