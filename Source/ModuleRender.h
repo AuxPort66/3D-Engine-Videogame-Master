@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "ModuleProgram.h"
 #include "Globals.h"
+#include "debugdraw.h"
 #include "MathGeoLib.h"
 
 struct SDL_Texture;
@@ -35,6 +36,9 @@ public:
 	inline float3 GetBackgroundColor() { return backgroundColor; }
 	inline void SetBackgroundColor(float3 newColor) { backgroundColor = newColor; }
 
+	inline float3 GetGridColor() { return gridColor; }
+	inline void SetGridColor(float3 newColor) { gridColor = newColor; }
+
 private:
 	Frustum frustum;
 
@@ -43,4 +47,5 @@ private:
 	unsigned vbo;
 
 	float3 backgroundColor = {0.1f,0.1f,0.1f};
+	float3 gridColor = dd::colors::Gray;
 };

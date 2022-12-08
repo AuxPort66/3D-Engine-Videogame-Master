@@ -3,6 +3,7 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleProgram.h"
+#include "ModuleDebugDraw.h"
 #include "SDL.h"
 #include "GL/glew.h"
 
@@ -120,6 +121,14 @@ void ModuleRender::RenderVBO(unsigned vbo)
 
 	// 1 triangle to draw = 3 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
+	dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, gridColor);
+
+	int width = 0;
+	int height = 0;
+	SDL_GetWindowSize(App->window->window, &width, &height);
+	App->debugDraw->Draw(view, proj, width, height);
 }
 
 void ModuleRender::InitFrustum() {

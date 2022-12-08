@@ -4,6 +4,7 @@
 #include "ModuleProgram.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModuleDebugDraw.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ Application::Application()
 	modules.push_back(window = new ModuleWindow());
 	modules.push_back(program = new ModuleProgram());
 	modules.push_back(renderer = new ModuleRender());
+	modules.push_back(debugDraw = new ModuleDebugDraw());
 	modules.push_back(input = new ModuleInput());
 }
 
@@ -69,3 +71,5 @@ bool Application::CleanUp()
 
 	return ret;
 }
+
+
