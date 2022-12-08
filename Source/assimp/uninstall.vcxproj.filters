@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Sara\Desktop\Master\C++ Jueves\Engine-3D\Engine\Source\assimp\CMakeFiles\a6a856c2d31779da7f414ed235a4cffa\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\Sara\Desktop\Master\C++ Jueves\Engine-3D\Engine\Source\assimp\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Sara\Desktop\Master\C++ Jueves\Engine-3D\Engine\Source\assimp\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{71EB5C4B-E62F-331E-B0D3-A36FFE22457A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

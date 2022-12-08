@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Sara\Desktop\Master\C++ Jueves\Engine-3D\Engine\Source\assimp\CMakeFiles\48aceee26111259f9bc085dc604914d9\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{71EB5C4B-E62F-331E-B0D3-A36FFE22457A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

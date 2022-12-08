@@ -1,0 +1,13 @@
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/CMakeFiles/uninstall.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/CMakeFiles/UpdateAssimpLibsDebugSymbolsAndDLLs.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/CMakeFiles/INSTALL.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/CMakeFiles/ALL_BUILD.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/CMakeFiles/ZERO_CHECK.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/contrib/zlib/CMakeFiles/zlibstatic.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/contrib/zlib/CMakeFiles/INSTALL.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/contrib/zlib/CMakeFiles/ALL_BUILD.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/code/CMakeFiles/assimp.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/code/CMakeFiles/INSTALL.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/test/CMakeFiles/unit.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/test/CMakeFiles/INSTALL.dir
+C:/Users/Sara/Desktop/Master/C++ Jueves/Engine-3D/Engine/Source/assimp/test/headercheck/CMakeFiles/INSTALL.dir
