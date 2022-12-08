@@ -108,6 +108,8 @@ update_status ModuleInput::PreUpdate() {
 					App->camera->SetAspectRatio(float(sdlEvent.window.data1 / sdlEvent.window.data2));
 				}
 				break;
+			case SDL_DROPFILE:
+				App->renderer->LoadModel(sdlEvent.drop.file);
 			case SDL_MOUSEWHEEL:
 				mouse_z = sdlEvent.wheel.y;
 				break;
