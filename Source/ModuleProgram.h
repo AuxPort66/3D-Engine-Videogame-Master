@@ -6,9 +6,13 @@ class ModuleProgram :
 public:
     ModuleProgram();
     ~ModuleProgram();
-    unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
+    char* LoadShaderSource(const char* InShader_file_name);
+    int CompileShader(unsigned type, const char* source);
+    unsigned CreateProgram();
 
 public:
     unsigned int program;
+    int vtx_shader;
+    int frg_shader;
 };
 

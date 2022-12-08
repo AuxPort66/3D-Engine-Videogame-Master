@@ -25,12 +25,8 @@ public:
 
 	void RenderVBO(unsigned vbo);
 
-	unsigned CompileShader(unsigned type, const char* source);
-
 private:
 	void* context;
 	unsigned vbo;
-	unsigned int vtx_shader, frg_shader;
-
 	unsigned program;
 };

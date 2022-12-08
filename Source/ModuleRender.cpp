@@ -37,26 +37,7 @@ bool ModuleRender::Init()
 	glEnable(GL_CULL_FACE); // Enable cull backward faces
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
-	const char* vertexShaderSource = "#version 440 core\n"
-		"layout(location=0) in vec3 my_vertex_position;\n"
-		"void main()\n"
-		"{\n"
-		"   gl_Position = vec4(my_vertex_position, 1.0);\n"
-		"}\0";
-
-
-	vtx_shader = CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
-
-	const char* fragmentShaderSource = "#version 330 core\n"
-		"out vec4 color;\n"
-		"void main()\n"
-		"{\n"
-		"   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-		"}\0";
-
-	frg_shader = CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-
-	program = App->program->CreateProgram(vtx_shader, frg_shader);
+	program = App->program->CreateProgram();
 
 	return true;
 }
@@ -117,27 +98,4 @@ void ModuleRender::RenderVBO(unsigned vbo)
 	glUseProgram(program);
 	// 1 triangle to draw = 3 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-}
-
-unsigned ModuleRender::CompileShader(unsigned type, const char* source)
-{
-	unsigned shader_id = glCreateShader(type);
-	glShaderSource(shader_id, 1, &source, 0);
-	glCompileShader(shader_id);
-	int res = GL_FALSE;
-	glGetShaderiv(shader_id, GL_COMPILE_STATUS, &res);
-	if (res == GL_FALSE)
-	{
-		int len = 0;
-		glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &len);
-		if (len > 0)
-		{
-			int written = 0;
-			char* info = (char*)malloc(len);
-			glGetShaderInfoLog(shader_id, len, &written, info);
-			LOG("Log Info: %s", info);
-			free(info);
-		}
-	}
-	return shader_id;
 }
