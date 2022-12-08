@@ -1,9 +1,10 @@
 #pragma once
 #include "Application.h"
 #include "ModuleWindow.h"
-#include "ModuleProgram.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModuleEngine.h"
+#include "ModuleProgram.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
@@ -14,6 +15,7 @@ Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(window = new ModuleWindow());
+	modules.push_back(engine = new ModuleEngine());
 	modules.push_back(program = new ModuleProgram());
 	modules.push_back(texture = new ModuleTexture());
 	modules.push_back(camera = new ModuleCamera());

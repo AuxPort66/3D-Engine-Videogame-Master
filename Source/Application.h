@@ -6,12 +6,13 @@
 
 class ModuleRender;
 class ModuleWindow;
+class ModuleTextures;
 class ModuleInput;
-class ModuleProgram;
-class ModuleCamera;
+class ModuleEngine;
 class ModuleDebugDraw;
+class ModuleCamera;
 class ModuleTexture;
-
+class ModuleProgram;
 
 class Application
 {
@@ -29,10 +30,11 @@ public:
 	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
-	ModuleProgram* program = nullptr;
-	ModuleCamera* camera = nullptr;
+	ModuleEngine* engine = nullptr;
 	ModuleDebugDraw* debugDraw = nullptr;
+	ModuleCamera* camera = nullptr;
 	ModuleTexture* texture = nullptr;
+	ModuleProgram* program = nullptr;
 
 private:
 

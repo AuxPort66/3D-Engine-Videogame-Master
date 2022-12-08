@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AppConsole.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ImGUI\include\imgui.cpp" />
     <ClCompile Include="ImGUI\include\imgui_demo.cpp" />
@@ -205,6 +206,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModuleCamera.cpp" />
     <ClCompile Include="ModuleDebugDraw.cpp" />
+    <ClCompile Include="ModuleEngine.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleProgram.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
@@ -212,6 +214,7 @@
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppConsole.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="debug_draw.hpp" />
@@ -306,6 +309,7 @@
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="ModuleDebugDraw.h" />
+    <ClInclude Include="ModuleEngine.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleRender.h" />
