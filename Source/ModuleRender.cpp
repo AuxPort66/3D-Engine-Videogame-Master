@@ -44,8 +44,7 @@ bool ModuleRender::Init()
 	program = App->program->CreateProgram();
 
 	std::string pathModel = "../Source/assets/" + std::string(modelName);
-	model = new Model();
-	model->Load(pathModel.c_str());
+	LoadModel(pathModel.c_str());
 
 	return true;
 }
@@ -100,4 +99,13 @@ void ModuleRender::DestroyVBO(unsigned vbo)
 	glDeleteBuffers(1, &vbo);
 }
 
+void ModuleRender::LoadModel(const char* fileName) {
 
+	model = new Model();
+	model->Load(fileName);
+
+	float3 look = model->GetCenterPoint();
+	float3 pos = model->GetInitVisionPos();
+	App->camera->SetPosition(pos);
+	App->camera->LookAt(look);
+}

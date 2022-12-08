@@ -23,8 +23,8 @@ public:
 	bool CleanUp();
 
 	void DestroyVBO(unsigned vbo);
+	void LoadModel(const char* fileName);
 	void RenderDebugDraw();
-
 
 	inline void* getContext() { return context; }
 
