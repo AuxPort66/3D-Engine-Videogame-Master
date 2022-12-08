@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "imgui.h"
 #include "AppConsole.h"
+#include "AppProperties.h"
 #include <vector>
 
 class ModuleEngine :
@@ -18,11 +19,18 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	bool ShowMenuBar();
+
 public:
 
 	AppConsole* log = nullptr;
+	AppProperties* propertiesApp = nullptr;
 
 private:
+
+	bool show_app_console = false;
+	bool show_app_properties = false;
+
 	ImGuiContext* context;
 	ImGuiIO io;
 

@@ -9,6 +9,7 @@
 ModuleEngine::ModuleEngine()
 {
 	log = new AppConsole();
+	propertiesApp = new AppProperties();
 }
 
 // Destructor
@@ -44,9 +45,14 @@ update_status ModuleEngine::PreUpdate()
 
 update_status ModuleEngine::Update()
 {
+	if (!ShowMenuBar()) return UPDATE_STOP;
+
+	if (show_app_console) log->Draw("Console");
+	if (show_app_properties) propertiesApp->Draw("Properties");
+
+
 	return UPDATE_CONTINUE;
 }
-
 
 update_status ModuleEngine::PostUpdate()
 {
@@ -68,3 +74,44 @@ bool ModuleEngine::CleanUp() {
 	return true;
 }
 
+bool ModuleEngine::ShowMenuBar() {
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("Menu")) {
+
+			if (ImGui::MenuItem("Exit")) {
+				return false;
+			}
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Window"))
+		{
+			if (ImGui::MenuItem("Console")) show_app_console = !show_app_console;
+			if (ImGui::MenuItem("Properties")) show_app_properties = !show_app_properties;
+
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Miscelanea"))
+		{
+
+			if (ImGui::BeginMenu("GitHub"))
+			{
+				if (ImGui::MenuItem("Main Page")) {
+					ShellExecuteA(NULL, "open", "", NULL, NULL, SW_SHOWNORMAL);
+				}
+				if (ImGui::MenuItem("Documentation")) {
+					ShellExecuteA(NULL, "open", "", NULL, NULL, SW_SHOWNORMAL); //readme TODO
+				}
+				if (ImGui::MenuItem("Download Latest")) {
+					ShellExecuteA(NULL, "open", "", NULL, NULL, SW_SHOWNORMAL); //releases TODO
+				}
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
+	return true;
+}
