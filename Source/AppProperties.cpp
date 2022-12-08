@@ -13,7 +13,6 @@ AppProperties::AppProperties()
 {
 }
 
-// Destructor
 AppProperties::~AppProperties()
 {
 }
@@ -36,6 +35,7 @@ void AppProperties::Draw(const char* title, bool* p_open) {
     if (ImGui::BeginTabBar("##TabBar"))
     {
         Model* model = App->renderer->GetModel();
+
         if (ImGui::BeginTabItem("Transformation"))
         {
             float pos[3] = { model->GetPos().x, model->GetPos().y, model->GetPos().z };
@@ -85,6 +85,7 @@ void AppProperties::Draw(const char* title, bool* p_open) {
             unsigned int itemsEquivalentFilter[] = { GL_NEAREST , GL_LINEAR, GL_NEAREST_MIPMAP_NEAREST, GL_LINEAR_MIPMAP_NEAREST, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR };
             const char* itemsMin[] = { "GL_NEAREST", "GL_LINEAR", "GL_NEAREST_MIPMAP_NEAREST", "GL_LINEAR_MIPMAP_NEAREST", "GL_NEAREST_MIPMAP_LINEAR", "GL_LINEAR_MIPMAP_LINEAR" };
             const char* itemsMag[] = { "GL_NEAREST", "GL_LINEAR" };
+
             unsigned int itemsEquivalentWrap[] = { GL_REPEAT , GL_CLAMP_TO_EDGE, GL_CLAMP_TO_BORDER, GL_MIRRORED_REPEAT, GL_MIRROR_CLAMP_TO_EDGE };
             const char* itemsWrap[] = { "GL_REPEAT", "GL_CLAMP_TO_EDGE", "GL_CLAMP_TO_BORDER", "GL_MIRRORED_REPEAT", "GL_MIRROR_CLAMP_TO_EDGE" };
 

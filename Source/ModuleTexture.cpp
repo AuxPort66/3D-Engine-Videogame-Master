@@ -2,15 +2,6 @@
 #include "Application.h"
 #include "ModuleEngine.h"
 #include <fstream>
-using namespace DirectX;
-
-ModuleTexture::ModuleTexture()
-{
-}
-
-ModuleTexture::~ModuleTexture()
-{
-}
 
 bool ModuleTexture::Init()
 {
@@ -31,14 +22,14 @@ update_status ModuleTexture::Update()
 
 bool ModuleTexture::Load(TextureData &result)
 {
-	App->engine->log->Debug("Star loading texture $s\n", result.fileName);
+	App->engine->log->Debug(("Star loading texture " + std::string(result.fileName) + "\n").c_str());
 
 	std::wstring wPath = std::wstring(result.fileName.begin(), result.fileName.end());
 
 	std::string extension = result.fileName.substr(result.fileName.size() - 4, 4);
 
-	TexMetadata metaData;
-	ScratchImage* img = new DirectX::ScratchImage;
+	DirectX::TexMetadata metaData;
+	DirectX::ScratchImage* img = new DirectX::ScratchImage;
 	imageTexture = new DirectX::ScratchImage;
 
 	HRESULT hr;
@@ -48,7 +39,7 @@ bool ModuleTexture::Load(TextureData &result)
 		hr = LoadFromDDSFile(wPath.c_str(), DirectX::DDS_FLAGS_NONE, &metaData, *img);
 		if (FAILED(hr)) {
 
-			App->engine->log->Error("Error DDS loading failed: %s\n", result.fileName.c_str());
+			App->engine->log->Error("Error DDS loading failed\n");
 			return 0;
 		}
 	}
@@ -57,21 +48,21 @@ bool ModuleTexture::Load(TextureData &result)
 		hr = LoadFromTGAFile(wPath.c_str(), &metaData, *img);
 		if (FAILED(hr)) {
 
-			App->engine->log->Error("Error TGA loading failed: %s\n", result.fileName.c_str());
+			App->engine->log->Error("Error TGA loading failed\n");
 			return 0;
 		}
 	}
 	else {
 
-		hr = LoadFromWICFile(wPath.c_str(), WIC_FLAGS_NONE, &metaData, *img);
+		hr = LoadFromWICFile(wPath.c_str(), DirectX::WIC_FLAGS_NONE, &metaData, *img);
 		if (FAILED(hr)) {
 
-			App->engine->log->Error("Error WIC loading failed: %s\n", result.fileName.c_str());
+			App->engine->log->Error("Error WIC loading failed\n");
 			return 0;
 		}
 	}
 
-	FlipRotate(img->GetImages(), img->GetImageCount(), img->GetMetadata(), TEX_FR_FLIP_VERTICAL, *imageTexture);
+	FlipRotate(img->GetImages(), img->GetImageCount(), img->GetMetadata(), DirectX::TEX_FR_FLIP_VERTICAL, *imageTexture);
 
 	GLuint texture = result.texture;
 	if(result.texture == NULL) glGenTextures(1, &texture);
@@ -121,7 +112,7 @@ bool ModuleTexture::Load(TextureData &result)
 	result.texture = texture;
 	result.metadata = imageTexture->GetMetadata();
 
-	App->engine->log->Debug("Texture %s loaded\n", result.fileName.c_str());
+	App->engine->log->Debug(("Texture " + std::string(result.fileName) + " loaded\n").c_str());
 
 	return 1;
 }
@@ -133,5 +124,6 @@ DirectX::TexMetadata ModuleTexture::GetMetaData()
 
 bool ModuleTexture::CleanUp()
 {
+	delete imageTexture;
 	return true;
 }

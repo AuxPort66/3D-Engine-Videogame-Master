@@ -7,9 +7,11 @@ class Mesh
 {
 public:
 
-	Mesh(const aiMesh* mesh);
+	void Load(const aiMesh* mesh);
 
 	void LoadVBO(const aiMesh* mesh);
+
+	void CalculateMaxMinCenter(aiVector3D* vertices);
 
 	void LoadEBO(const aiMesh* mesh);
 

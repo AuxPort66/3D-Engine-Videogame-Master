@@ -20,7 +20,7 @@ void Model::Load(const char* file_name)
 	}
 	mTextures.clear();
 
-	App->engine->log->Debug("Load Model from: %s\n", file_name);
+	App->engine->log->Debug(("Load Model from: " + std::string(file_name) + "\n").c_str());
 
 	const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene)
@@ -30,7 +30,7 @@ void Model::Load(const char* file_name)
 	}
 	else
 	{
-		App->engine->log->Error("Error Loading Model %s: %s\n", file_name, aiGetErrorString());
+		App->engine->log->Error(("Error Loading Model " +  std::string(file_name) + " " + aiGetErrorString()).c_str());
 	}
 }
 
@@ -38,7 +38,7 @@ void Model::Load(const char* file_name)
 void Model::LoadTextures(aiMaterial** materials, unsigned int numMaterials, const char* file_model)
 {
 
-	App->engine->log->Debug("Start Loading Texture");
+	App->engine->log->Debug("Start Loading Textures\n");
 
 	aiString file;
 	mTextures.reserve(numMaterials);
@@ -61,7 +61,7 @@ void Model::LoadTextures(aiMaterial** materials, unsigned int numMaterials, cons
 			}
 		}
 	}
-	App->engine->log->Debug("%i textures loaded\n", numMaterials);
+	App->engine->log->Debug((std::to_string(numMaterials) + "textures loaded\n").c_str());
 
 }
 
@@ -75,16 +75,17 @@ void Model::ChangeTexture(int id, GLuint textureid, OptionsTexture options)
 
 void Model::LoadMeshes(aiMesh** meshes, unsigned int numMeshes)
 {
-	App->engine->log->Debug("Start Loading Texture");
+	App->engine->log->Debug("Start Loading Meshes\n");
 
 	mMeshes.reserve(numMeshes);
 	for (unsigned i = 0; i < numMeshes; ++i)
 	{
-		Mesh mesh(meshes[i]);
+		Mesh mesh;
+		mesh.Load(meshes[i]);
 		mMeshes.push_back(mesh);
 	}
 	
-	App->engine->log->Debug("%i meshes loaded\n", numMeshes);
+	App->engine->log->Debug((std::to_string(numMeshes) + "meshes loaded\n").c_str());
 
 }
 

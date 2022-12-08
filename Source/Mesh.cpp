@@ -6,13 +6,13 @@
 #include "ModuleTexture.h"
 
 
-Mesh::Mesh(const aiMesh* mesh) {
+void Mesh::Load(const aiMesh* mesh) {
 	LoadVBO(mesh);
+	CalculateMaxMinCenter(mesh->mVertices);
 	LoadEBO(mesh);
 	material_index = mesh->mMaterialIndex;
 	CreateVAO();
 }
-
 
 void Mesh::LoadVBO(const aiMesh* mesh)
 {
@@ -27,29 +27,6 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 	unsigned uv_size = sizeof(float) * 2 * mesh->mNumVertices;
 	float2* uvs = (float2*)(glMapBufferRange(GL_ARRAY_BUFFER, uv_offset, uv_size, GL_MAP_WRITE_BIT));
 
-	float3 maxPoint = { 0,0,0 };
-	float3 minPoint = { 0,0,0 };
-
-	if (mesh->mNumVertices > 0) {
-		maxPoint = float3(mesh->mVertices[0].x, mesh->mVertices[0].y, mesh->mVertices[0].z);
-		minPoint = maxPoint;
-	}
-
-	for (unsigned i = 1; i < mesh->mNumVertices; ++i) {
-
-		if (maxPoint.x < mesh->mVertices[i].x) maxPoint.x = mesh->mVertices[i].x;
-		if (maxPoint.y < mesh->mVertices[i].y) maxPoint.y = mesh->mVertices[i].y;
-		if (maxPoint.z < mesh->mVertices[i].z) maxPoint.z = mesh->mVertices[i].z;
-
-		if (minPoint.x > mesh->mVertices[i].x) minPoint.x = mesh->mVertices[i].x;
-		if (minPoint.y > mesh->mVertices[i].y) minPoint.y = mesh->mVertices[i].y;
-		if (minPoint.z > mesh->mVertices[i].z) minPoint.z = mesh->mVertices[i].z;
-	}
-
-	max = maxPoint;
-	min = minPoint;
-	center = (maxPoint + minPoint) / 2;
-
 	for (unsigned i = 0; i < mesh->mNumVertices; ++i)
 	{
 		uvs[i] = float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
@@ -58,6 +35,31 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 	num_vertices = mesh->mNumVertices;
 	num_triangles = mesh->mNumFaces;
 	name = mesh->mName.C_Str();
+}
+
+void Mesh::CalculateMaxMinCenter(aiVector3D* vertices) {
+	float3 maxPoint = { 0,0,0 };
+	float3 minPoint = { 0,0,0 };
+
+	if (num_vertices > 0) {
+		maxPoint = float3(vertices[0].x, vertices[0].y, vertices[0].z);
+		minPoint = maxPoint;
+	}
+
+	for (unsigned i = 1; i < num_vertices; ++i) {
+
+		if (maxPoint.x < vertices[i].x) maxPoint.x = vertices[i].x;
+		if (maxPoint.y < vertices[i].y) maxPoint.y = vertices[i].y;
+		if (maxPoint.z < vertices[i].z) maxPoint.z = vertices[i].z;
+
+		if (minPoint.x > vertices[i].x) minPoint.x = vertices[i].x;
+		if (minPoint.y > vertices[i].y) minPoint.y = vertices[i].y;
+		if (minPoint.z > vertices[i].z) minPoint.z = vertices[i].z;
+	}
+
+	max = maxPoint;
+	min = minPoint;
+	center = (maxPoint + minPoint) / 2;
 }
 
 void Mesh::LoadEBO(const aiMesh* mesh)
@@ -69,7 +71,7 @@ void Mesh::LoadEBO(const aiMesh* mesh)
 	unsigned* indices = (unsigned*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
 	{
-		assert(mesh->mFaces[i].mNumIndices == 3); // note: assume triangles = 3 indices per face
+		assert(mesh->mFaces[i].mNumIndices == 3);
 		*(indices++) = mesh->mFaces[i].mIndices[0];
 		*(indices++) = mesh->mFaces[i].mIndices[1];
 		*(indices++) = mesh->mFaces[i].mIndices[2];

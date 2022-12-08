@@ -27,13 +27,14 @@ bool ModuleCamera::Init()
 	nearPlaneDistance = 0.1f;
 	farPlaneDistance = 100.0f;
 
-	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum.SetPos(float3::zero);
-	frustum.SetFront(-float3::unitZ);
-	frustum.SetUp(float3::unitY);
+	frustum = new Frustum();
+	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
+	frustum->SetPos(float3::zero);
+	frustum->SetFront(-float3::unitZ);
+	frustum->SetUp(float3::unitY);
 
-	frustum.SetHorizontalFovAndAspectRatio(horizontalFov, aspect);
-	frustum.SetViewPlaneDistances(nearPlaneDistance, farPlaneDistance);
+	frustum->SetHorizontalFovAndAspectRatio(horizontalFov, aspect);
+	frustum->SetViewPlaneDistances(nearPlaneDistance, farPlaneDistance);
 
 	return true;
 }
@@ -46,73 +47,74 @@ update_status ModuleCamera::Update() {
 
 bool ModuleCamera::CleanUp()
 {
+	delete frustum;
 	return false;
 }
 
 float4x4 ModuleCamera::GetProjectionMatrix()
 {
-	return frustum.ProjectionMatrix();
+	return frustum->ProjectionMatrix();
 }
 
 float4x4 ModuleCamera::GetViewMatrix()
 {
-	return frustum.ViewMatrix();
+	return frustum->ViewMatrix();
 }
 
 void ModuleCamera::SetPosition(float3 pos) {
-	frustum.SetPos(pos);
+	frustum->SetPos(pos);
 }
 
 void ModuleCamera::SetFOV(float newhorizontalFov)
 {
 	horizontalFov = newhorizontalFov;
-	frustum.SetHorizontalFovAndAspectRatio(newhorizontalFov, aspect);
+	frustum->SetHorizontalFovAndAspectRatio(newhorizontalFov, aspect);
 }
 
 void ModuleCamera::SetAspectRatio(float newAspect)
 {
 	aspect = newAspect;
-	frustum.SetHorizontalFovAndAspectRatio(frustum.HorizontalFov(), newAspect);
+	frustum->SetHorizontalFovAndAspectRatio(frustum->HorizontalFov(), newAspect);
 }
 
 void ModuleCamera::AddPosition(float3 pos)
 {
-	frustum.SetPos(frustum.Pos() + pos);
+	frustum->SetPos(frustum->Pos() + pos);
 }
 
 void ModuleCamera::RotateCamera(float3 direction, float angleRadiants) {
 	float3x3 rotationDeltaMatrix;
 	rotationDeltaMatrix = rotationDeltaMatrix.RotateAxisAngle(direction, angleRadiants);
 
-	vec oldFront = frustum.Front().Normalized();
-	frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
-	vec oldUp = frustum.Up().Normalized();
-	frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
+	vec oldFront = frustum->Front().Normalized();
+	frustum->SetFront(rotationDeltaMatrix.MulDir(oldFront));
+	vec oldUp = frustum->Up().Normalized();
+	frustum->SetUp(rotationDeltaMatrix.MulDir(oldUp));
 }
 
 void ModuleCamera::Orbit(int x, int y) {
 
 	float3 reference = App->renderer->GetModel()->GetCenterPoint();
-	float3 direction = frustum.Pos() - reference;
+	float3 direction = frustum->Pos() - reference;
 
-	Quat quat_y(frustum.Up(), x * 0.003);
-	Quat quat_x(frustum.WorldRight(), y * 0.003);
+	Quat quat_y(frustum->Up(), x * 0.003);
+	Quat quat_x(frustum->WorldRight(), y * 0.003);
 
 	direction = quat_x.Transform(direction);
 	direction = quat_y.Transform(direction);
 
-	frustum.SetPos(direction + reference);
+	frustum->SetPos(direction + reference);
 	LookAt(reference);
 }
 
 void ModuleCamera::LookAt(float3& point)
 {
-	float3 look_direction = point - frustum.Pos();
+	float3 look_direction = point - frustum->Pos();
 
-	float3x3 matrix = float3x3::LookAt(frustum.Front(), look_direction.Normalized(), frustum.Up(), float3::unitY);
+	float3x3 matrix = float3x3::LookAt(frustum->Front(), look_direction.Normalized(), frustum->Up(), float3::unitY);
 
-	frustum.SetFront(matrix.MulDir(frustum.Front()).Normalized());
-	frustum.SetUp(matrix.MulDir(frustum.Up()).Normalized());
+	frustum->SetFront(matrix.MulDir(frustum->Front()).Normalized());
+	frustum->SetUp(matrix.MulDir(frustum->Up()).Normalized());
 }
 
 void ModuleCamera::MovementCameraKey()
@@ -130,22 +132,22 @@ void ModuleCamera::MovementCameraKey()
 
 		float3 newPos = App->renderer->GetModel()->GetInitVisionPos();
 		float3 reference = App->renderer->GetModel()->GetCenterPoint();
-		if(App->input->GetKey(SDL_SCANCODE_LALT)) frustum.SetPos(newPos);
+		if(App->input->GetKey(SDL_SCANCODE_LALT)) frustum->SetPos(newPos);
 		LookAt(reference);
 	}
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 		//Rotation Camera Mouse Mode
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-			AddPosition(float3(frustum.Front() * speedMov));
+			AddPosition(float3(frustum->Front() * speedMov));
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-			AddPosition(float3(-frustum.Front() * speedMov));
+			AddPosition(float3(-frustum->Front() * speedMov));
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-			AddPosition(float3(frustum.WorldRight() * -speedMov));
+			AddPosition(float3(frustum->WorldRight() * -speedMov));
 		}
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-			AddPosition(float3(frustum.WorldRight() * speedMov));
+			AddPosition(float3(frustum->WorldRight() * speedMov));
 		}
 		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) {
 			AddPosition(float3(0.0f, -speedMov, 0.0f));
@@ -156,10 +158,10 @@ void ModuleCamera::MovementCameraKey()
 	}
 	else {
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) {
-			RotateCamera(frustum.WorldRight(), speedRot * (pi / 180));
+			RotateCamera(frustum->WorldRight(), speedRot * (pi / 180));
 		}
 		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) {
-			RotateCamera(-frustum.WorldRight(), speedRot * (pi / 180));
+			RotateCamera(-frustum->WorldRight(), speedRot * (pi / 180));
 		}
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 			RotateCamera(-float3::unitY, speedRot * (pi / 180));
@@ -193,7 +195,7 @@ void ModuleCamera::MovementCameraMouse(){
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
 	{
 		RotateCamera(float3::unitY, motion_x * speedRot);
-		RotateCamera(frustum.WorldRight(), -motion_y * speedRot);
+		RotateCamera(frustum->WorldRight(), -motion_y * speedRot);
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0)) {
 		Orbit(motion_x, -motion_y);
@@ -201,13 +203,13 @@ void ModuleCamera::MovementCameraMouse(){
 
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT  && (motion_x != 0 || motion_y != 0))
 	{
-		AddPosition(float3(0.0f, motion_y * speedMov, 0.0f) + (frustum.WorldRight() * motion_x * speedMov));
+		AddPosition(float3(0.0f, motion_y * speedMov, 0.0f) + (frustum->WorldRight() * motion_x * speedMov));
 	}
 
 	int wheel = App->input->GetMouseZ();
 	if (wheel != 0)
 	{
-		AddPosition(float3(frustum.Front() * wheel * speedZoom));
+		AddPosition(float3(frustum->Front() * wheel * speedZoom));
 	}
 
 }

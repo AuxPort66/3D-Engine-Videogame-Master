@@ -12,6 +12,8 @@ public:
 
 	void UpdateGraphs(float newFPS, float newMS);
 
+	void CleanUp();
+
 private:
 	ImVector<float> fps_log;
 

@@ -78,43 +78,6 @@ void AppConsole::Draw(const char* title, bool* p_open) {
 
 	Filter.Draw("Filter", -100.0f);
 
-	/*if (ImGui::CollapsingHeader("Filters")) {
-		ImGui::Spacing();
-		ImGui::SameLine(0.0f, 5.0f);
-
-		ImVec4 color_type = getColor(LogType::Debug_Type);
-
-		ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(color_type.x - 0.4f, color_type.y - 0.4f, color_type.z - 0.4f, 1.0f));
-		ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(color_type.x - 0.2f, color_type.y - 0.2f, color_type.z - 0.2f, 0.4f));
-		ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(color_type.x, color_type.y, color_type.z, 0.8f));
-		if (ImGui::Selectable("Debug", &selectionActivesTypes[0], 0, ImVec2(35, 15))) { Filter.Clear(); }
-		ImGui::PopStyleColor(3);
-
-		ImGui::SameLine(0.0f, 15.0f);
-
-		color_type = getColor(LogType::Warning_Type);
-
-		ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(color_type.x - 0.4f, color_type.y - 0.4f, color_type.z - 0.4f, 1.0f));
-		ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(color_type.x - 0.2f, color_type.y - 0.2f, color_type.z - 0.2f, 0.4f));
-		ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(color_type.x, color_type.y, color_type.z, 0.8f));
-		if (ImGui::Selectable("Warning", &selectionActivesTypes[1], 0, ImVec2(50, 15))) { Filter.Clear(); }
-		ImGui::PopStyleColor(3);
-
-		ImGui::SameLine(0.0f, 15.0f);
-
-		color_type = getColor(LogType::Error_Type);
-
-		ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(color_type.x - 0.4f, color_type.y - 0.4f, color_type.z - 0.4f, 1.0f));
-		ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(color_type.x - 0.2f, color_type.y - 0.2f, color_type.z - 0.2f, 0.4f));
-		ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(color_type.x, color_type.y, color_type.z, 0.8f));
-		if (ImGui::Selectable("Error", &selectionActivesTypes[2], 0, ImVec2(35, 15))) { Filter.Clear(); }
-		ImGui::PopStyleColor(3);
-
-		ImGui::Separator();
-
-	}*/
-	
-
 	if (ImGui::BeginChild("scrolling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar)) {
 		
 		if (clear) 

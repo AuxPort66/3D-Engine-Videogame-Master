@@ -80,10 +80,11 @@ update_status ModuleRender::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-// Called before quitting
 bool ModuleRender::CleanUp()
 {
 	SDL_GL_DeleteContext(context);
+	glDeleteProgram(program);
+	delete model;
 	return true;
 }
 

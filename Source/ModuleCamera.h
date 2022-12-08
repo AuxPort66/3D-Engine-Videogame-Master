@@ -28,7 +28,7 @@ public:
 
 
 private:
-    Frustum frustum;
+    Frustum* frustum;
     float nearPlaneDistance;
     float farPlaneDistance;
     float verticalFov;

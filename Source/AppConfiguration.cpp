@@ -35,6 +35,11 @@ void AppConfiguration::UpdateGraphs(float newFPS, float newMS) {
     fps_log.push_back(newFPS);
 }
 
+void AppConfiguration::CleanUp()
+{
+    fps_log.clear();
+}
+
 void AppConfiguration::Draw(const char* title, bool* p_open) {
     
 
@@ -122,8 +127,6 @@ void AppConfiguration::Draw(const char* title, bool* p_open) {
 
     }
     
-
-
     ImGui::End();
 
 }

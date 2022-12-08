@@ -121,9 +121,17 @@ update_status ModuleEngine::PostUpdate()
 
 bool ModuleEngine::CleanUp() {
 
+	configApp->CleanUp();
+
+	delete log;
+	delete configApp;
+	delete propertiesApp;
+	delete aboutApp;
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+	SDL_Quit();
 	return true;
 }
 

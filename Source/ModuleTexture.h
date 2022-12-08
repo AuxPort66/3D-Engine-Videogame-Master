@@ -19,7 +19,7 @@ struct TextureData {
     std::string fileName = "";
     const char* format = "";
     DirectX::TexMetadata metadata;
-    OptionsTexture options = { GL_LINEAR_MIPMAP_LINEAR , GL_LINEAR, GL_REPEAT, GL_REPEAT, true };;
+    OptionsTexture options = { GL_LINEAR_MIPMAP_LINEAR , GL_LINEAR, GL_REPEAT, GL_REPEAT, true };
     unsigned texture = NULL;
 };
 
@@ -28,14 +28,10 @@ class ModuleTexture :
     public Module
 {
 public:
-    ModuleTexture();
-    ~ModuleTexture();
 
     bool Init();
     update_status Update();
     bool CleanUp();
-
-    void GetSize(int* width, int* height);
 
     bool Load(TextureData& textureData);
 
