@@ -27,11 +27,7 @@ public:
 	void DestroyVBO(unsigned vbo);
 	void RenderVBO(unsigned vbo);
 
-	void InitFrustum();
-
-
 	inline void* getContext() { return context; }
-
 
 	inline float3 GetBackgroundColor() { return backgroundColor; }
 	inline void SetBackgroundColor(float3 newColor) { backgroundColor = newColor; }
@@ -40,8 +36,6 @@ public:
 	inline void SetGridColor(float3 newColor) { gridColor = newColor; }
 
 private:
-	Frustum frustum;
-
 	void* context;
 	unsigned program;
 	unsigned vbo;

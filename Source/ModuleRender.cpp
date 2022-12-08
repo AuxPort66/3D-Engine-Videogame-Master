@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleProgram.h"
 #include "ModuleDebugDraw.h"
+#include "ModuleCamera.h"
 #include "SDL.h"
 #include "GL/glew.h"
 
@@ -42,8 +43,6 @@ bool ModuleRender::Init()
 
 	program = App->program->CreateProgram();
 	CreateTriangleVBO();
-	InitFrustum();
-
 	return true;
 }
 
@@ -101,8 +100,8 @@ void ModuleRender::RenderVBO(unsigned vbo)
 {
 	float4x4 model, view, proj;
 
-	view = frustum.ViewMatrix();
-	proj = frustum.ProjectionMatrix();
+	view = App->camera->GetViewMatrix();
+	proj = App->camera->GetProjectionMatrix();
 	model = float4x4::FromTRS(float3::zero,
 		float4x4::zero,
 		float3::one
@@ -128,29 +127,5 @@ void ModuleRender::RenderVBO(unsigned vbo)
 	int width = 0;
 	int height = 0;
 	SDL_GetWindowSize(App->window->window, &width, &height);
-	App->debugDraw->Draw(view, proj, width, height);
+	App->debugDraw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjectionMatrix(), width, height);
 }
-
-void ModuleRender::InitFrustum() {
-
-	int width = 0;
-	int height = 0;
-	SDL_GetWindowSize(App->window->window, &width, &height);
-
-	float aspect = float(width / height);
-	float verticalFov = pi / 4.0f;
-	float horizontalFov = (pi / 180) * 90.0f;
-	float nearPlaneDistance = 0.1f;
-	float farPlaneDistance = 100.0f;
-	
-	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum.SetPos(float3::zero);
-	frustum.SetFront(-float3::unitZ);
-	frustum.SetUp(float3::unitY);
-
-	frustum.SetHorizontalFovAndAspectRatio(horizontalFov, aspect);
-	frustum.SetViewPlaneDistances(nearPlaneDistance, farPlaneDistance);
-
-
-}
-
