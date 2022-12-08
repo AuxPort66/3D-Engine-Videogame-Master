@@ -119,6 +119,13 @@ void ModuleCamera::MovementCameraKey()
 	float speedMov = 0.001f;
 	float speedRot = 0.02f;
 
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
+
+		float3 newPos = App->renderer->GetModel()->GetInitVisionPos();
+		float3 reference = App->renderer->GetModel()->GetCenterPoint();
+		if (App->input->GetKey(SDL_SCANCODE_LALT)) frustum.SetPos(newPos);
+		LookAt(reference);
+	}
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
