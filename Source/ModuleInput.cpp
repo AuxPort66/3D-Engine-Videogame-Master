@@ -94,7 +94,6 @@ update_status ModuleInput::PreUpdate() {
 	SDL_Event sdlEvent;
 	while (SDL_PollEvent(&sdlEvent) != 0)
 	{
-		ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
 		switch (sdlEvent.type)
 		{
 		case SDL_QUIT:

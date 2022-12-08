@@ -120,7 +120,7 @@ void ModuleCamera::MovementCameraKey()
 	float speedRot = 0.02f;
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
-		//Rotation Camera Mouse Mode
+
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 			AddPosition(float3(frustum.Front() * speedMov));
 		}
