@@ -31,9 +31,7 @@ void AppConfiguration::UpdateGraphs(float newFPS, float newMS) {
 
     if (fps_log.size() >= 100) {
         fps_log.erase(fps_log.begin());
-        //m_Ms.erase(m_Ms.begin(), m_Ms.begin() + 1);
     }
-
     fps_log.push_back(newFPS);
 }
 
@@ -47,11 +45,10 @@ void AppConfiguration::Draw(const char* title, bool* p_open) {
     }
     
     if (ImGui::CollapsingHeader("Application")) {
-        /*ImGui::SliderInt("Max FPS", &max_fps, -1, 200, NULL);
+
         char title[25];
         sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
-        ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));*/
-    
+        ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
 
         SDL_version version;
         SDL_GetVersion(&version);

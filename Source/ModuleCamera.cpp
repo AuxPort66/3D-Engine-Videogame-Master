@@ -117,9 +117,14 @@ void ModuleCamera::LookAt(float3& point)
 
 void ModuleCamera::MovementCameraKey()
 {
-	float speedMov = 0.001f;
-	float speedRot = 0.02f;
+	float speedMov = 0.05f;
+	float speedRot = 0.5f;
 
+
+
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT) {
+		speedMov += speedMov; speedRot += speedRot;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
 
@@ -164,9 +169,6 @@ void ModuleCamera::MovementCameraKey()
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT) {
-		speedMov += speedMov; speedRot += speedRot;
-	}
 
 }
 

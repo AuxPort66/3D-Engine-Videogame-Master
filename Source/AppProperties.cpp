@@ -82,6 +82,12 @@ void AppProperties::Draw(const char* title, bool* p_open) {
             ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.4f, 1.0f), "%i", model->GetTextures().size());
             ImGui::Separator();
 
+            unsigned int itemsEquivalentFilter[] = { GL_NEAREST , GL_LINEAR, GL_NEAREST_MIPMAP_NEAREST, GL_LINEAR_MIPMAP_NEAREST, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR };
+            const char* itemsMin[] = { "GL_NEAREST", "GL_LINEAR", "GL_NEAREST_MIPMAP_NEAREST", "GL_LINEAR_MIPMAP_NEAREST", "GL_NEAREST_MIPMAP_LINEAR", "GL_LINEAR_MIPMAP_LINEAR" };
+            const char* itemsMag[] = { "GL_NEAREST", "GL_LINEAR" };
+            unsigned int itemsEquivalentWrap[] = { GL_REPEAT , GL_CLAMP_TO_EDGE, GL_CLAMP_TO_BORDER, GL_MIRRORED_REPEAT, GL_MIRROR_CLAMP_TO_EDGE };
+            const char* itemsWrap[] = { "GL_REPEAT", "GL_CLAMP_TO_EDGE", "GL_CLAMP_TO_BORDER", "GL_MIRRORED_REPEAT", "GL_MIRROR_CLAMP_TO_EDGE" };
+
             for (int i = 0; i < model->GetTextures().size(); i++)
             {
                 std::string SubTittle = "Texture " + std::to_string(i + 1) + ": " + std::string(model->GetTextures()[i].fileName);
@@ -109,11 +115,6 @@ void AppProperties::Draw(const char* title, bool* p_open) {
                     ImGui::SameLine();
                     ImGui::Image((void*)(intptr_t)model->GetTextures()[i].texture, ImVec2(200, 200));
 
-                    unsigned int itemsEquivalentFilter[] = { GL_NEAREST , GL_LINEAR, GL_NEAREST_MIPMAP_NEAREST, GL_LINEAR_MIPMAP_NEAREST, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR };
-                    const char* itemsMin[] = { "GL_NEAREST", "GL_LINEAR", "GL_NEAREST_MIPMAP_NEAREST", "GL_LINEAR_MIPMAP_NEAREST", "GL_NEAREST_MIPMAP_LINEAR", "GL_LINEAR_MIPMAP_LINEAR" };
-                    const char* itemsMag[] = { "GL_NEAREST", "GL_LINEAR" };
-                    unsigned int itemsEquivalentWrap[] = { GL_REPEAT , GL_CLAMP_TO_EDGE, GL_CLAMP_TO_BORDER, GL_MIRRORED_REPEAT, GL_MIRROR_CLAMP_TO_EDGE };
-                    const char* itemsWrap[] = { "GL_REPEAT", "GL_CLAMP_TO_EDGE", "GL_CLAMP_TO_BORDER", "GL_MIRRORED_REPEAT", "GL_MIRROR_CLAMP_TO_EDGE" };
                     static int item_currentMin = 5;
                     static int item_currentMag = 1;
                     static int item_currentWrapS = 0;

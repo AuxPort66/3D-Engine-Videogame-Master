@@ -45,6 +45,8 @@ update_status ModuleEngine::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
+	configApp->UpdateGraphs(ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
 	return UPDATE_CONTINUE;
 }
 

@@ -5,6 +5,7 @@
 #include "MathGeoLib.h"
 #include "debugdraw.h"
 #include "Model.h"
+#include "SDL/include/SDL.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -36,6 +37,9 @@ public:
 	inline float3 GetGridColor() { return gridColor; }
 	inline void SetGridColor(float3 newColor) { gridColor = newColor; }
 
+
+public:
+	SDL_Renderer* renderer;
 
 private:
 	void* context;
