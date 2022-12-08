@@ -77,6 +77,17 @@ void Model::DrawMeshes() {
 	}
 }
 
+float3 Model::GetCenterPoint() {
+
+	float3 center = { 0,0,0 };
+	for (unsigned i = 0; i < mMeshes.size(); ++i)
+	{
+		center += mMeshes[i].center;
+	}
+	return center / (float)mMeshes.size();
+
+}
+
 float4x4 Model::GetmatrixModel() {
 
 	float4x4 rotMatrix = float4x4::identity;
@@ -88,4 +99,35 @@ float4x4 Model::GetmatrixModel() {
 		rotMatrix,
 		scale
 	);
+}
+
+
+const float3& Model::GetInitVisionPos()
+{
+	float3 actualMaxVtx, actualMinVtx;
+
+	if (mMeshes.size() > 0)
+	{
+		actualMaxVtx = mMeshes[0].max;
+		actualMinVtx = mMeshes[0].min;
+	}
+	for (int i = 1; i < mMeshes.size(); ++i)
+	{
+		float3 maxVtx = mMeshes[i].max;
+		float3 minVtx = mMeshes[i].min;
+
+		if (maxVtx.x > actualMaxVtx.x) actualMaxVtx.x = maxVtx.x;
+		if (maxVtx.y > actualMaxVtx.y) actualMaxVtx.y = maxVtx.y;
+		if (maxVtx.z > actualMaxVtx.z) actualMaxVtx.z = maxVtx.z;
+
+		if (minVtx.x < actualMinVtx.x) actualMinVtx.x = minVtx.x;
+		if (minVtx.y < actualMinVtx.y) actualMinVtx.y = minVtx.y;
+		if (minVtx.z < actualMinVtx.z) actualMinVtx.z = minVtx.z;
+	}
+
+	initVisionPos.Set(actualMaxVtx.x + (actualMaxVtx.x - actualMinVtx.x) / 4,
+		actualMaxVtx.y + (actualMaxVtx.y - actualMinVtx.y) / 4,
+		actualMaxVtx.z + (actualMaxVtx.z - actualMinVtx.z) / 4);
+
+	return initVisionPos;
 }

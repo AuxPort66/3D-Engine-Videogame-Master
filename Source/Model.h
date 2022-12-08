@@ -19,6 +19,8 @@ public:
 
 	void DrawMeshes();
 
+	float3 GetCenterPoint();
+
 	inline std::vector<TextureData>& GetTextures() { return mTextures; };
 	inline std::vector<Mesh>& GetMeshes() { return mMeshes; };
 
@@ -32,6 +34,8 @@ public:
 
 	float4x4 GetmatrixModel();
 
+	const float3& GetInitVisionPos();
+
 private:
 	std::vector<TextureData> mTextures;
 	std::vector<Mesh> mMeshes;
@@ -40,5 +44,6 @@ private:
 	float3 rotation = float3::zero;
 	float3 scale = float3::one;
 
+	float3 initVisionPos;
 };
 
