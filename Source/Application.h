@@ -10,6 +10,7 @@ class ModuleInput;
 class ModuleProgram;
 class ModuleCamera;
 class ModuleDebugDraw;
+class ModuleTexture;
 
 
 class Application
@@ -31,6 +32,7 @@ public:
 	ModuleProgram* program = nullptr;
 	ModuleCamera* camera = nullptr;
 	ModuleDebugDraw* debugDraw = nullptr;
+	ModuleTexture* texture = nullptr;
 
 private:
 
