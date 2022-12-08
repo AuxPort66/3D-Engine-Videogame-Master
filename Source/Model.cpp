@@ -54,7 +54,7 @@ void Model::LoadTextures(aiMaterial** materials, unsigned int numMaterials, cons
 				continue;
 			}
 
-			material.fileName = "../assets/textures/" + std::string(file.data);
+			material.fileName = "../Source/assets/textures/" + std::string(file.data);
 			if (App->texture->Load(material))
 			{
 				mTextures.push_back(material);
@@ -63,6 +63,14 @@ void Model::LoadTextures(aiMaterial** materials, unsigned int numMaterials, cons
 	}
 	App->engine->log->Debug("%i textures loaded\n", numMaterials);
 
+}
+
+void Model::ChangeTexture(int id, GLuint textureid, OptionsTexture options)
+{
+	TextureData material = mTextures[id];
+	material.options = options;
+	App->texture->Load(material);
+	mTextures[id] = material;
 }
 
 void Model::LoadMeshes(aiMesh** meshes, unsigned int numMeshes)

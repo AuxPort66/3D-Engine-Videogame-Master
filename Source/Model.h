@@ -15,6 +15,8 @@ public:
 
 	void LoadTextures(aiMaterial** materials, unsigned int numMaterials, const char* file_model);
 
+	void ChangeTexture(int id, GLuint textureid, OptionsTexture options);
+
 	void LoadMeshes(aiMesh** meshes, unsigned int numMeshes);
 
 	void DrawMeshes();
