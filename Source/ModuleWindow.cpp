@@ -17,7 +17,7 @@ bool ModuleWindow::Init()
 	LOG("Init SDL window & surface");
 	bool ret = true;
 
-	if(SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -25,11 +25,11 @@ bool ModuleWindow::Init()
 	else
 	{
 		//Create window
-		int width = SCREEN_WIDTH;
-		int height = SCREEN_HEIGHT;
-		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL;
+		width = SCREEN_WIDTH;
+		height = SCREEN_HEIGHT;
+		Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
 
-		if(FULLSCREEN == true)
+		if (FULLSCREEN == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
@@ -41,14 +41,10 @@ bool ModuleWindow::Init()
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
-		if (BORDERLESS == true)
-		{
-			flags |= SDL_WINDOW_BORDERLESS;
-		}
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
-		if(window == NULL)
+		if (window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
@@ -56,7 +52,10 @@ bool ModuleWindow::Init()
 		else
 		{
 			//Get window surface
-			
+			SDL_DisplayMode dm;
+			SDL_GetCurrentDisplayMode(0, &dm);
+			SDL_SetWindowMaximumSize(window, dm.w, dm.h);
+			SDL_SetWindowMinimumSize(window, MIN_SCREEN_WIDTH, MIN_SCREEN_HEIGHT);
 			screen_surface = SDL_GetWindowSurface(window);
 		}
 	}
@@ -70,7 +69,7 @@ bool ModuleWindow::CleanUp()
 	LOG("Destroying SDL window and quitting all SDL systems");
 
 	//Destroy window
-	if(window != NULL)
+	if (window != NULL)
 	{
 		SDL_DestroyWindow(window);
 	}
@@ -80,3 +79,50 @@ bool ModuleWindow::CleanUp()
 	return true;
 }
 
+void ModuleWindow::SetFullScreen(SDL_bool fullscreen)
+{
+	Uint32 value = 0;
+	if (fullscreen) value = SDL_WINDOW_FULLSCREEN;
+	SDL_SetWindowFullscreen(window, value);
+}
+
+void ModuleWindow::SetResizable(SDL_bool resizable)
+{
+	SDL_SetWindowResizable(window, resizable);
+}
+
+void ModuleWindow::SetBorderless(SDL_bool bordered)
+{
+	SDL_SetWindowBordered(window, bordered);
+}
+
+void ModuleWindow::SetFullDesktop(SDL_bool fullDesktop)
+{
+	Uint32 value = 0;
+	if (fullDesktop) value = SDL_WINDOW_FULLSCREEN_DESKTOP;
+	SDL_SetWindowFullscreen(window, value);
+}
+
+void ModuleWindow::UpdateBrigthness(float* brightness) {
+	SDL_SetWindowBrightness(window, *brightness);
+}
+
+void ModuleWindow::UpdateSize(int* width, int* height) {
+	SDL_SetWindowSize(window, *width, *height);
+}
+
+int ModuleWindow::GetScreenWidth() const
+{
+	return width;
+}
+
+int ModuleWindow::GetScreenHeight() const
+{
+	return height;
+}
+
+void ModuleWindow::ResizeScreen(int width, int height)
+{
+	this->width = width;
+	this->height = height;
+}
