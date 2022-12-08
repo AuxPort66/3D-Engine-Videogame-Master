@@ -29,4 +29,5 @@ private:
 	void* context;
 	unsigned vbo;
 	unsigned program;
+
 };

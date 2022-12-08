@@ -26,10 +26,11 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 
+	context = SDL_GL_CreateContext(App->window->window);
+
 	SDL_GL_MakeCurrent(App->window->window, context);
 	SDL_GL_SetSwapInterval(0);
 
-	context = SDL_GL_CreateContext(App->window->window);
 
 	GLenum err = glewInit();
 
@@ -38,24 +39,31 @@ bool ModuleRender::Init()
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
 	program = App->program->CreateProgram();
-
+	CreateTriangleVBO();
 	return true;
 }
 
 update_status ModuleRender::PreUpdate()
 {
+	int width = 0;
+	int height = 0;
+	SDL_GetWindowSize(App->window->window, &width, &height);
+	glViewport(0, 0, width, height);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return UPDATE_CONTINUE;
 }
 
 // Called every draw update
 update_status ModuleRender::Update()
 {
-
+	RenderVBO(vbo);
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::PostUpdate()
 {
+	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }
 
@@ -64,8 +72,8 @@ bool ModuleRender::CleanUp()
 {
 	LOG("Destroying renderer");
 
-	//Destroy window
-
+	DestroyVBO(vbo);
+	SDL_GL_DeleteContext(context);
 	return true;
 }
 
