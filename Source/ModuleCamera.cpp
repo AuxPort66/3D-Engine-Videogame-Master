@@ -3,6 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "Model.h"
 
 ModuleCamera::ModuleCamera()
 {
@@ -91,7 +92,7 @@ void ModuleCamera::RotateCamera(float3 direction, float angleRadiants) {
 
 void ModuleCamera::Orbit(int x, int y) {
 
-	float3 reference = { 0,0,0 };
+	float3 reference = App->renderer->GetModel()->GetCenterPoint();
 	float3 direction = frustum.Pos() - reference;
 
 	Quat quat_y(frustum.Up(), x * 0.003);
@@ -119,15 +120,16 @@ void ModuleCamera::MovementCameraKey()
 	float speedMov = 0.001f;
 	float speedRot = 0.02f;
 
+
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
 
 		float3 newPos = App->renderer->GetModel()->GetInitVisionPos();
 		float3 reference = App->renderer->GetModel()->GetCenterPoint();
-		if (App->input->GetKey(SDL_SCANCODE_LALT)) frustum.SetPos(newPos);
+		if(App->input->GetKey(SDL_SCANCODE_LALT)) frustum.SetPos(newPos);
 		LookAt(reference);
 	}
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
-
+		//Rotation Camera Mouse Mode
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 			AddPosition(float3(frustum.Front() * speedMov));
 		}
@@ -168,7 +170,7 @@ void ModuleCamera::MovementCameraKey()
 
 }
 
-void ModuleCamera::MovementCameraMouse() {
+void ModuleCamera::MovementCameraMouse(){
 	int motion_x, motion_y;
 	bool ret = false;
 	motion_x = -App->input->GetMouseXMotion();
@@ -195,7 +197,7 @@ void ModuleCamera::MovementCameraMouse() {
 		Orbit(motion_x, -motion_y);
 	}
 
-	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT  && (motion_x != 0 || motion_y != 0))
 	{
 		AddPosition(float3(0.0f, motion_y * speedMov, 0.0f) + (frustum.WorldRight() * motion_x * speedMov));
 	}
