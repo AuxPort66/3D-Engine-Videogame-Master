@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include "Application.h"
-#include "ModuleRender.h"
 #include "Globals.h"
 
 #include "SDL/include/SDL.h"
@@ -66,6 +65,7 @@ int main(int argc, char ** argv)
 			}
 
 			break;
+
 
 		case MAIN_UPDATE:
 		{

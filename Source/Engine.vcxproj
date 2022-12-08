@@ -149,12 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AppAbout.cpp" />
-    <ClCompile Include="AppConsole.cpp" />
-    <ClCompile Include="AppConfiguration.cpp" />
-    <ClCompile Include="AppHardware.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="AppProperties.cpp" />
     <ClCompile Include="ImGUI\include\imgui.cpp" />
     <ClCompile Include="ImGUI\include\imgui_demo.cpp" />
     <ClCompile Include="ImGUI\include\imgui_draw.cpp" />
@@ -206,25 +201,14 @@
     <ClCompile Include="MathGeoLib_Source\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib_Source\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib_Source\Time\Clock.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ModuleCamera.cpp" />
     <ClCompile Include="ModuleDebugDraw.cpp" />
-    <ClCompile Include="ModuleEngine.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleProgram.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
-    <ClCompile Include="ModuleRenderExcercise.cpp" />
-    <ClCompile Include="ModuleTexture.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AppAbout.h" />
-    <ClInclude Include="AppConsole.h" />
-    <ClInclude Include="AppConfiguration.h" />
-    <ClInclude Include="AppHardware.h" />
     <ClInclude Include="Application.h" />
-    <ClInclude Include="AppProperties.h" />
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="Dummy.h" />
@@ -313,17 +297,11 @@
     <ClInclude Include="MathGeoLib_Source\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib_Source\Math\vec2d.h" />
     <ClInclude Include="MathGeoLib_Source\Time\Clock.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
     <ClInclude Include="Module.h" />
-    <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="ModuleDebugDraw.h" />
-    <ClInclude Include="ModuleEngine.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleRender.h" />
-    <ClInclude Include="ModuleRenderExcercise.h" />
-    <ClInclude Include="ModuleTexture.h" />
     <ClInclude Include="ModuleWindow.h" />
   </ItemGroup>
   <ItemGroup>
