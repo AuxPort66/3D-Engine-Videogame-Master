@@ -5,15 +5,15 @@ First assignment  of the UPC SCHOOL Triple AAA Programming Master 2022-2023
 See license file for a correct use of this software. 
 
 ## Camera controls:
-- Right mouse button/Arrow keys ➜ rotate camera
-- Right mouse button + ALTL ➜ orbit in the model
-- Right mouse button + WASD ➜ movement
-- Right mouse button + Q/E ➜ up/down
-- Middle mouse button ➜ movement
-- Mouse wheel ➜ move forward and backward
-- F ➜ focus the loaded model
-- ALTL + F ➜ starting pos of camera with the loaded model
-- Shift + any movement ➜ speed incresed x2
+- Right mouse button/Arrow keys > rotate camera
+- Right mouse button + ALTL > orbit in the model
+- Right mouse button + WASD > movement
+- Right mouse button + Q/E > up/down
+- Middle mouse button > movement
+- Mouse wheel > move forward and backward
+- F > focus the loaded model
+- ALTL + F > starting pos of camera with the loaded model
+- Shift + any movement > speed incresed x2
 
 ## Imgui Panels:
 - **Bar Menu**
