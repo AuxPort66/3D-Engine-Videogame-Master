@@ -89,13 +89,13 @@ bool ModuleEngine::ShowMenuBar() {
 			if (ImGui::BeginMenu("GitHub"))
 			{
 				if (ImGui::MenuItem("Main Page")) {
-					ShellExecuteA(NULL, "open", "", NULL, NULL, SW_SHOWNORMAL);
+					ShellExecuteA(NULL, "open", "https://github.com/AuxPort66/3D-Engine-Videogame-Master", NULL, NULL, SW_SHOWNORMAL);
 				}
 				if (ImGui::MenuItem("Documentation")) {
-					ShellExecuteA(NULL, "open", "", NULL, NULL, SW_SHOWNORMAL); //readme TODO
+					ShellExecuteA(NULL, "open", "https://github.com/AuxPort66/3D-Engine-Videogame-Master/blob/main/README.md", NULL, NULL, SW_SHOWNORMAL); //readme TODO
 				}
 				if (ImGui::MenuItem("Download Latest")) {
-					ShellExecuteA(NULL, "open", "", NULL, NULL, SW_SHOWNORMAL); //releases TODO
+					ShellExecuteA(NULL, "open", "https://github.com/AuxPort66/3D-Engine-Videogame-Master/releases/tag/1.0.0", NULL, NULL, SW_SHOWNORMAL); //releases TODO
 				}
 				ImGui::EndMenu();
 			}

@@ -25,4 +25,4 @@ enum update_status
 #define RESIZABLE false
 #define DESKTOP_FULLSCREEN false
 #define VSYNC true
-#define TITLE "Super Awesome Engine"
+#define TITLE "Tiembla Unreal"
