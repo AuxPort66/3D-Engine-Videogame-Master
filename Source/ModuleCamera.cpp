@@ -38,8 +38,8 @@ bool ModuleCamera::Init()
 }
 
 update_status ModuleCamera::Update() {
-
 	MovementCameraKey();
+	MovementCameraMouse();
 	return UPDATE_CONTINUE;
 }
 
@@ -89,6 +89,21 @@ void ModuleCamera::RotateCamera(float3 direction, float angleRadiants) {
 	frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
 }
 
+void ModuleCamera::Orbit(int x, int y) {
+
+	float3 reference = { 0,0,0 };
+	float3 direction = frustum.Pos() - reference;
+
+	Quat quat_y(frustum.Up(), x * 0.003);
+	Quat quat_x(frustum.WorldRight(), y * 0.003);
+
+	direction = quat_x.Transform(direction);
+	direction = quat_y.Transform(direction);
+
+	frustum.SetPos(direction + reference);
+	LookAt(reference);
+}
+
 void ModuleCamera::LookAt(float3& point)
 {
 	float3 look_direction = point - frustum.Pos();
@@ -104,39 +119,84 @@ void ModuleCamera::MovementCameraKey()
 	float speedMov = 0.001f;
 	float speedRot = 0.02f;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		AddPosition(float3(frustum.Front() * speedMov));
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
+		//Rotation Camera Mouse Mode
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			AddPosition(float3(frustum.Front() * speedMov));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+			AddPosition(float3(-frustum.Front() * speedMov));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+			AddPosition(float3(frustum.WorldRight() * -speedMov));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+			AddPosition(float3(frustum.WorldRight() * speedMov));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) {
+			AddPosition(float3(0.0f, -speedMov, 0.0f));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
+			AddPosition(float3(0.0f, speedMov, 0.0f));
+		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		AddPosition(float3(-frustum.Front() * speedMov));
+	else {
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) {
+			RotateCamera(frustum.WorldRight(), speedRot * (pi / 180));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) {
+			RotateCamera(-frustum.WorldRight(), speedRot * (pi / 180));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
+			RotateCamera(-float3::unitY, speedRot * (pi / 180));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
+			RotateCamera(float3::unitY, speedRot * (pi / 180));
+		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		AddPosition(float3(frustum.WorldRight() * -speedMov));
-	}
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		AddPosition(float3(frustum.WorldRight() * speedMov));
-	}
-	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) {
-		AddPosition(float3(0.0f, -speedMov, 0.0f));
-	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
-		AddPosition(float3(0.0f, speedMov, 0.0f));
-	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) {
-		RotateCamera(frustum.WorldRight(), speedRot * (pi / 180));
-	}
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) {
-		RotateCamera(-frustum.WorldRight(), speedRot * (pi / 180));
-	}
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
-		RotateCamera(-float3::unitY, speedRot * (pi / 180));
-	}
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
-		RotateCamera(float3::unitY, speedRot * (pi / 180));
-	}	
-	
+
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT) {
 		speedMov += speedMov; speedRot += speedRot;
+	}
+
+}
+
+void ModuleCamera::MovementCameraMouse() {
+	int motion_x, motion_y;
+	bool ret = false;
+	motion_x = -App->input->GetMouseXMotion();
+	motion_y = App->input->GetMouseYMotion();
+
+	float speedRot = 0.003f;
+	float speedMov = 0.01f;
+	float speedZoom = 0.25f;
+
+	float3x3 rotationDeltaMatrix = float3x3::identity;
+
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT) {
+		speedRot += speedRot;
+		speedMov += speedMov;
+		speedZoom += speedZoom;
+	}
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
+	{
+		RotateCamera(float3::unitY, motion_x * speedRot);
+		RotateCamera(frustum.WorldRight(), -motion_y * speedRot);
+	}
+	else if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0)) {
+		Orbit(motion_x, -motion_y);
+	}
+
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
+	{
+		AddPosition(float3(0.0f, motion_y * speedMov, 0.0f) + (frustum.WorldRight() * motion_x * speedMov));
+	}
+
+	int wheel = App->input->GetMouseZ();
+	if (wheel != 0)
+	{
+		AddPosition(float3(frustum.Front() * wheel * speedZoom));
 	}
 
 }

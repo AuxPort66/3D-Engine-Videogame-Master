@@ -21,7 +21,9 @@ public:
     void SetPosition(float3 pos);
     void AddPosition(float3 pos);
     void LookAt(float3& point);
+    void Orbit(int x, int y);
     void MovementCameraKey();
+    void MovementCameraMouse();
     void RotateCamera(float3 direction, float angleRadiants);
 
 
