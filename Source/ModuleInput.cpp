@@ -98,6 +98,7 @@ update_status ModuleInput::PreUpdate() {
 	while (SDL_PollEvent(&sdlEvent) != 0)
 	{
 		ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+
 		switch (sdlEvent.type)
 		{
 			case SDL_QUIT:
@@ -111,35 +112,37 @@ update_status ModuleInput::PreUpdate() {
 			case SDL_DROPFILE:
 				App->renderer->LoadModel(sdlEvent.drop.file);
 			case SDL_MOUSEWHEEL:
-				mouse_z = sdlEvent.wheel.y;
+				if(!ImGui::GetIO().WantCaptureMouse) mouse_z = sdlEvent.wheel.y;
 				break;
 			case SDL_MOUSEMOTION:
-				mouse_x = sdlEvent.motion.x / SCREEN_SIZE;
-				mouse_y = sdlEvent.motion.y / SCREEN_SIZE;
+				if (!ImGui::GetIO().WantCaptureMouse) {
+					mouse_x = sdlEvent.motion.x / SCREEN_SIZE;
+					mouse_y = sdlEvent.motion.y / SCREEN_SIZE;
 
-				mouse_x_motion = sdlEvent.motion.xrel / SCREEN_SIZE - last_mouse_swap;
-				mouse_y_motion = sdlEvent.motion.yrel / SCREEN_SIZE;
+					mouse_x_motion = sdlEvent.motion.xrel / SCREEN_SIZE - last_mouse_swap;
+					mouse_y_motion = sdlEvent.motion.yrel / SCREEN_SIZE;
 
-				if (infiniteHorizontal)
-				{
-					if (mouse_x > App->window->GetScreenWidth() - 10)
+					if (infiniteHorizontal)
 					{
-						int last_x = mouse_x;
-						App->input->SetMouseX(10);
-						last_mouse_swap = mouse_x - last_x;
-					}
-					else if (mouse_x < 10)
-					{
-						int last_x = mouse_x;
-						App->input->SetMouseX(App->window->GetScreenWidth() - 10);
-						last_mouse_swap = mouse_x - last_x;
+						if (mouse_x > App->window->GetScreenWidth() - 10)
+						{
+							int last_x = mouse_x;
+							App->input->SetMouseX(10);
+							last_mouse_swap = mouse_x - last_x;
+						}
+						else if (mouse_x < 10)
+						{
+							int last_x = mouse_x;
+							App->input->SetMouseX(App->window->GetScreenWidth() - 10);
+							last_mouse_swap = mouse_x - last_x;
+						}
+						else
+							last_mouse_swap = 0;
 					}
 					else
+					{
 						last_mouse_swap = 0;
-				}
-				else
-				{
-					last_mouse_swap = 0;
+					}
 				}
 				break;
 		}
