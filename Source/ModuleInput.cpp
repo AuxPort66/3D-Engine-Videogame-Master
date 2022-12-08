@@ -151,7 +151,7 @@ update_status ModuleInput::PreUpdate() {
 // Called every draw update
 update_status ModuleInput::Update()
 {
-
+	if (GetKey(SDL_SCANCODE_ESCAPE)) return UPDATE_STOP;
     return UPDATE_CONTINUE;
 }
 
