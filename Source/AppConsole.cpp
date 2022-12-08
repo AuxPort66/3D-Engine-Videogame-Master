@@ -78,7 +78,7 @@ void AppConsole::Draw(const char* title, bool* p_open) {
 
 	Filter.Draw("Filter", -100.0f);
 
-	if (ImGui::CollapsingHeader("Filters")) {
+	/*if (ImGui::CollapsingHeader("Filters")) {
 		ImGui::Spacing();
 		ImGui::SameLine(0.0f, 5.0f);
 
@@ -112,7 +112,7 @@ void AppConsole::Draw(const char* title, bool* p_open) {
 
 		ImGui::Separator();
 
-	}
+	}*/
 	
 
 	if (ImGui::BeginChild("scrolling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar)) {
