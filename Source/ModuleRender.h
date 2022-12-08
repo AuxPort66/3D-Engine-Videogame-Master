@@ -31,4 +31,6 @@ private:
 	void* context;
 	unsigned vbo;
 	unsigned int vtx_shader, frg_shader;
+
+	unsigned program;
 };

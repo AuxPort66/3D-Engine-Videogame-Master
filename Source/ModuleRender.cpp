@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleProgram.h"
 #include "ModuleWindow.h"
 #include "GL/glew.h"
 #include "SDL.h"
@@ -54,6 +55,8 @@ bool ModuleRender::Init()
 		"}\0";
 
 	frg_shader = CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+
+	program = App->program->CreateProgram(vtx_shader, frg_shader);
 
 	return true;
 }
@@ -110,6 +113,8 @@ void ModuleRender::RenderVBO(unsigned vbo)
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	
+	glUseProgram(program);
 	// 1 triangle to draw = 3 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
