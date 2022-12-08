@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="AppConsole.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AppProperties.cpp" />
     <ClCompile Include="ImGUI\include\imgui.cpp" />
     <ClCompile Include="ImGUI\include\imgui_demo.cpp" />
     <ClCompile Include="ImGUI\include\imgui_draw.cpp" />
@@ -216,6 +217,7 @@
   <ItemGroup>
     <ClInclude Include="AppConsole.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AppProperties.h" />
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="Dummy.h" />

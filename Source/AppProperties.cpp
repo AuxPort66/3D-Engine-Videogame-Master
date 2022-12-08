@@ -109,7 +109,35 @@ void AppProperties::Draw(const char* title, bool* p_open) {
                     ImGui::SameLine();
                     ImGui::Image((void*)(intptr_t)model->GetTextures()[i].texture, ImVec2(200, 200));
 
-                    
+                    unsigned int itemsEquivalentFilter[] = { GL_NEAREST , GL_LINEAR, GL_NEAREST_MIPMAP_NEAREST, GL_LINEAR_MIPMAP_NEAREST, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR };
+                    const char* itemsMin[] = { "GL_NEAREST", "GL_LINEAR", "GL_NEAREST_MIPMAP_NEAREST", "GL_LINEAR_MIPMAP_NEAREST", "GL_NEAREST_MIPMAP_LINEAR", "GL_LINEAR_MIPMAP_LINEAR" };
+                    const char* itemsMag[] = { "GL_NEAREST", "GL_LINEAR" };
+                    unsigned int itemsEquivalentWrap[] = { GL_REPEAT , GL_CLAMP_TO_EDGE, GL_CLAMP_TO_BORDER, GL_MIRRORED_REPEAT, GL_MIRROR_CLAMP_TO_EDGE };
+                    const char* itemsWrap[] = { "GL_REPEAT", "GL_CLAMP_TO_EDGE", "GL_CLAMP_TO_BORDER", "GL_MIRRORED_REPEAT", "GL_MIRROR_CLAMP_TO_EDGE" };
+                    static int item_currentMin = 5;
+                    static int item_currentMag = 1;
+                    static int item_currentWrapS = 0;
+                    static int item_currentWrapT = 0;
+
+                    bool changeActivate = false;
+
+                    if (ImGui::Combo("MIN_FILTER", &item_currentMin, itemsMin, IM_ARRAYSIZE(itemsMin))) changeActivate = true;
+                    if (ImGui::Combo("MAG_FILTER", &item_currentMag, itemsMag, IM_ARRAYSIZE(itemsMag))) changeActivate = true;
+                    if (ImGui::Combo("WRAP_S", &item_currentWrapS, itemsWrap, IM_ARRAYSIZE(itemsWrap))) changeActivate = true;
+                    if (ImGui::Combo("WRAP_T", &item_currentWrapT, itemsWrap, IM_ARRAYSIZE(itemsWrap))) changeActivate = true;
+
+                    bool mipMapActivate = model->GetTextures()[i].options.MipMap;
+                    if (ImGui::Checkbox("MipMap", &mipMapActivate)) changeActivate = true;
+                    ImGui::SameLine();
+
+                    if (changeActivate) {
+                        OptionsTexture options{
+                            itemsEquivalentFilter[item_currentMin], itemsEquivalentFilter[item_currentMag],
+                            itemsEquivalentWrap[item_currentWrapS], itemsEquivalentWrap[item_currentWrapT],
+                            mipMapActivate
+                        };
+                        model->ChangeTexture(i, model->GetTextures()[i].texture, options);
+                    };
 
                     ImGui::TreePop();
                 }
