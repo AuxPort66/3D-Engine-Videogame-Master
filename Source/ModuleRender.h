@@ -1,6 +1,8 @@
 #pragma once
 #include "Module.h"
+#include "ModuleProgram.h"
 #include "Globals.h"
+#include "MathGeoLib.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -22,12 +24,23 @@ public:
 	void CreateTriangleVBO();
 
 	void DestroyVBO(unsigned vbo);
-
 	void RenderVBO(unsigned vbo);
 
-private:
-	void* context;
-	unsigned vbo;
-	unsigned program;
+	void InitFrustum();
 
+
+	inline void* getContext() { return context; }
+
+
+	inline float3 GetBackgroundColor() { return backgroundColor; }
+	inline void SetBackgroundColor(float3 newColor) { backgroundColor = newColor; }
+
+private:
+	Frustum frustum;
+
+	void* context;
+	unsigned program;
+	unsigned vbo;
+
+	float3 backgroundColor = {0.1f,0.1f,0.1f};
 };

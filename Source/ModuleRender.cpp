@@ -1,10 +1,11 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRender.h"
-#include "ModuleProgram.h"
 #include "ModuleWindow.h"
-#include "GL/glew.h"
+#include "ModuleProgram.h"
 #include "SDL.h"
+#include "GL/glew.h"
+
 
 ModuleRender::ModuleRender()
 {
@@ -40,6 +41,8 @@ bool ModuleRender::Init()
 
 	program = App->program->CreateProgram();
 	CreateTriangleVBO();
+	InitFrustum();
+
 	return true;
 }
 
@@ -70,8 +73,6 @@ update_status ModuleRender::PostUpdate()
 // Called before quitting
 bool ModuleRender::CleanUp()
 {
-	LOG("Destroying renderer");
-
 	DestroyVBO(vbo);
 	SDL_GL_DeleteContext(context);
 	return true;
@@ -97,13 +98,50 @@ void ModuleRender::DestroyVBO(unsigned vbo)
 
 void ModuleRender::RenderVBO(unsigned vbo)
 {
+	float4x4 model, view, proj;
+
+	view = frustum.ViewMatrix();
+	proj = frustum.ProjectionMatrix();
+	model = float4x4::FromTRS(float3::zero,
+		float4x4::zero,
+		float3::one
+	);
+
+	glUseProgram(program);
+	glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(2, 1, GL_TRUE, &proj[0][0]);
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glEnableVertexAttribArray(0);
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	
-	glUseProgram(program);
+
 	// 1 triangle to draw = 3 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
+
+void ModuleRender::InitFrustum() {
+
+	int width = 0;
+	int height = 0;
+	SDL_GetWindowSize(App->window->window, &width, &height);
+
+	float aspect = float(width / height);
+	float verticalFov = pi / 4.0f;
+	float horizontalFov = (pi / 180) * 90.0f;
+	float nearPlaneDistance = 0.1f;
+	float farPlaneDistance = 100.0f;
+	
+	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
+	frustum.SetPos(float3::zero);
+	frustum.SetFront(-float3::unitZ);
+	frustum.SetUp(float3::unitY);
+
+	frustum.SetHorizontalFovAndAspectRatio(horizontalFov, aspect);
+	frustum.SetViewPlaneDistances(nearPlaneDistance, farPlaneDistance);
+
+
+}
+
