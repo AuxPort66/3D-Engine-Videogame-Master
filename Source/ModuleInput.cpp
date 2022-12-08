@@ -1,7 +1,8 @@
-#include "Globals.h"
+ #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModuleEngine.h"
 #include "ModuleCamera.h"
 #include "ModuleWindow.h"
 #include "SDL/include/SDL.h"
@@ -26,11 +27,13 @@ ModuleInput::~ModuleInput()
 // Called before render is available
 bool ModuleInput::Init()
 {
+    App->engine->log->Debug("Init SDL input event system\n");
 	bool ret = true;
 	SDL_Init(0);
 
-	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
+        App->engine->log->Error("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
@@ -40,8 +43,8 @@ bool ModuleInput::Init()
 
 update_status ModuleInput::PreUpdate() {
 
-	SDL_PumpEvents();
-	const Uint8* keys = SDL_GetKeyboardState(NULL);
+    SDL_PumpEvents();
+    const Uint8* keys = SDL_GetKeyboardState(NULL);
 
 	for (int i = 0; i < MAX_KEYS; ++i)
 	{
@@ -94,48 +97,49 @@ update_status ModuleInput::PreUpdate() {
 	SDL_Event sdlEvent;
 	while (SDL_PollEvent(&sdlEvent) != 0)
 	{
+		ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
 		switch (sdlEvent.type)
 		{
-		case SDL_QUIT:
-			return UPDATE_STOP;
-		case SDL_WINDOWEVENT:
-			if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
-				App->window->ResizeScreen(sdlEvent.window.data1, sdlEvent.window.data2);
-				App->camera->SetAspectRatio(float(sdlEvent.window.data1 / sdlEvent.window.data2));
-			}
-			break;
-		case SDL_MOUSEWHEEL:
-			mouse_z = sdlEvent.wheel.y;
-			break;
-		case SDL_MOUSEMOTION:
-			mouse_x = sdlEvent.motion.x / SCREEN_SIZE;
-			mouse_y = sdlEvent.motion.y / SCREEN_SIZE;
-
-			mouse_x_motion = sdlEvent.motion.xrel / SCREEN_SIZE - last_mouse_swap;
-			mouse_y_motion = sdlEvent.motion.yrel / SCREEN_SIZE;
-
-			if (infiniteHorizontal)
-			{
-				if (mouse_x > App->window->GetScreenWidth() - 10)
-				{
-					int last_x = mouse_x;
-					App->input->SetMouseX(10);
-					last_mouse_swap = mouse_x - last_x;
+			case SDL_QUIT:
+				return UPDATE_STOP;
+			case SDL_WINDOWEVENT:
+				if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+					App->window->ResizeScreen(sdlEvent.window.data1, sdlEvent.window.data2);
+					App->camera->SetAspectRatio(float(sdlEvent.window.data1 / sdlEvent.window.data2));
 				}
-				else if (mouse_x < 10)
+				break;
+			case SDL_MOUSEWHEEL:
+				mouse_z = sdlEvent.wheel.y;
+				break;
+			case SDL_MOUSEMOTION:
+				mouse_x = sdlEvent.motion.x / SCREEN_SIZE;
+				mouse_y = sdlEvent.motion.y / SCREEN_SIZE;
+
+				mouse_x_motion = sdlEvent.motion.xrel / SCREEN_SIZE - last_mouse_swap;
+				mouse_y_motion = sdlEvent.motion.yrel / SCREEN_SIZE;
+
+				if (infiniteHorizontal)
 				{
-					int last_x = mouse_x;
-					App->input->SetMouseX(App->window->GetScreenWidth() - 10);
-					last_mouse_swap = mouse_x - last_x;
+					if (mouse_x > App->window->GetScreenWidth() - 10)
+					{
+						int last_x = mouse_x;
+						App->input->SetMouseX(10);
+						last_mouse_swap = mouse_x - last_x;
+					}
+					else if (mouse_x < 10)
+					{
+						int last_x = mouse_x;
+						App->input->SetMouseX(App->window->GetScreenWidth() - 10);
+						last_mouse_swap = mouse_x - last_x;
+					}
+					else
+						last_mouse_swap = 0;
 				}
 				else
+				{
 					last_mouse_swap = 0;
-			}
-			else
-			{
-				last_mouse_swap = 0;
-			}
-			break;
+				}
+				break;
 		}
 	}
 
@@ -146,24 +150,25 @@ update_status ModuleInput::PreUpdate() {
 update_status ModuleInput::Update()
 {
 
-	return UPDATE_CONTINUE;
+    return UPDATE_CONTINUE;
 }
 
 // Called before quitting
 bool ModuleInput::CleanUp()
 {
+    App->engine->log->Debug("Quitting SDL input event subsystem\n");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }
 
 KEY_STATE ModuleInput::GetKey(int id) const
 {
-	return keyboard[id];
+    return keyboard[id];
 }
 
 KEY_STATE ModuleInput::GetMouseButton(int id) const
 {
-	return mouse_buttons[id];
+    return mouse_buttons[id];
 }
 
 void ModuleInput::SetMouseX(int x)

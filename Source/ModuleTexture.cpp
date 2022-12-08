@@ -1,5 +1,6 @@
 #include "ModuleTexture.h"
 #include "Application.h"
+#include "ModuleEngine.h"
 #include <fstream>
 using namespace DirectX;
 
@@ -30,6 +31,8 @@ update_status ModuleTexture::Update()
 
 bool ModuleTexture::Load(TextureData &result)
 {
+	App->engine->log->Debug("Star loading texture $s\n", result.fileName);
+
 	std::wstring wPath = std::wstring(result.fileName.begin(), result.fileName.end());
 
 	std::string extension = result.fileName.substr(result.fileName.size() - 4, 4);
@@ -45,6 +48,7 @@ bool ModuleTexture::Load(TextureData &result)
 		hr = LoadFromDDSFile(wPath.c_str(), DirectX::DDS_FLAGS_NONE, &metaData, *img);
 		if (FAILED(hr)) {
 
+			App->engine->log->Error("Error DDS loading failed: %s\n", result.fileName.c_str());
 			return 0;
 		}
 	}
@@ -53,6 +57,7 @@ bool ModuleTexture::Load(TextureData &result)
 		hr = LoadFromTGAFile(wPath.c_str(), &metaData, *img);
 		if (FAILED(hr)) {
 
+			App->engine->log->Error("Error TGA loading failed: %s\n", result.fileName.c_str());
 			return 0;
 		}
 	}
@@ -61,6 +66,7 @@ bool ModuleTexture::Load(TextureData &result)
 		hr = LoadFromWICFile(wPath.c_str(), WIC_FLAGS_NONE, &metaData, *img);
 		if (FAILED(hr)) {
 
+			App->engine->log->Error("Error WIC loading failed: %s\n", result.fileName.c_str());
 			return 0;
 		}
 	}
@@ -104,6 +110,7 @@ bool ModuleTexture::Load(TextureData &result)
 		type = GL_UNSIGNED_BYTE;
 		break;
 	default:
+		App->engine->log->Error("Error Unsupported format\n");
 		assert(false && "Unsupported format");
 		return 0;
 	}
@@ -113,6 +120,8 @@ bool ModuleTexture::Load(TextureData &result)
 
 	result.texture = texture;
 	result.metadata = imageTexture->GetMetadata();
+
+	App->engine->log->Debug("Texture %s loaded\n", result.fileName.c_str());
 
 	return 1;
 }

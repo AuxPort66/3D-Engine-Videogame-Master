@@ -1,5 +1,6 @@
 #include "Model.h"
 #include "Application.h"
+#include "ModuleEngine.h"
 #include "ModuleTexture.h"
 
 #include "assimp/cimport.h"
@@ -19,6 +20,8 @@ void Model::Load(const char* file_name)
 	}
 	mTextures.clear();
 
+	App->engine->log->Debug("Load Model from: %s\n", file_name);
+
 	const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene)
 	{
@@ -27,13 +30,15 @@ void Model::Load(const char* file_name)
 	}
 	else
 	{
-		printf("Error Loading Model %s: %s\n", file_name, aiGetErrorString());
+		App->engine->log->Error("Error Loading Model %s: %s\n", file_name, aiGetErrorString());
 	}
 }
 
 
 void Model::LoadTextures(aiMaterial** materials, unsigned int numMaterials, const char* file_model)
 {
+
+	App->engine->log->Debug("Start Loading Texture");
 
 	aiString file;
 	mTextures.reserve(numMaterials);
@@ -49,17 +54,21 @@ void Model::LoadTextures(aiMaterial** materials, unsigned int numMaterials, cons
 				continue;
 			}
 
-			material.fileName = "../Source/assets/textures/" + std::string(file.data);
+			material.fileName = "../assets/textures/" + std::string(file.data);
 			if (App->texture->Load(material))
 			{
 				mTextures.push_back(material);
 			}
 		}
 	}
+	App->engine->log->Debug("%i textures loaded\n", numMaterials);
+
 }
 
 void Model::LoadMeshes(aiMesh** meshes, unsigned int numMeshes)
 {
+	App->engine->log->Debug("Start Loading Texture");
+
 	mMeshes.reserve(numMeshes);
 	for (unsigned i = 0; i < numMeshes; ++i)
 	{
@@ -67,6 +76,8 @@ void Model::LoadMeshes(aiMesh** meshes, unsigned int numMeshes)
 		mMeshes.push_back(mesh);
 	}
 	
+	App->engine->log->Debug("%i meshes loaded\n", numMeshes);
+
 }
 
 void Model::DrawMeshes() {
