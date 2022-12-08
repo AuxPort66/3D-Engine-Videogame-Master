@@ -2,8 +2,9 @@
 #include "Module.h"
 #include "ModuleProgram.h"
 #include "Globals.h"
-#include "debugdraw.h"
 #include "MathGeoLib.h"
+#include "debugdraw.h"
+#include "Model.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -20,14 +21,14 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
-	void WindowResized(unsigned width, unsigned height);
-
-	void CreateTriangleVBO();
 
 	void DestroyVBO(unsigned vbo);
-	void RenderVBO(unsigned vbo);
+	void RenderDebugDraw();
+
 
 	inline void* getContext() { return context; }
+
+	inline Model* GetModel() { return model; }
 
 	inline float3 GetBackgroundColor() { return backgroundColor; }
 	inline void SetBackgroundColor(float3 newColor) { backgroundColor = newColor; }
@@ -35,11 +36,14 @@ public:
 	inline float3 GetGridColor() { return gridColor; }
 	inline void SetGridColor(float3 newColor) { gridColor = newColor; }
 
+
 private:
 	void* context;
 	unsigned program;
-	unsigned vbo;
 
 	float3 backgroundColor = {0.1f,0.1f,0.1f};
 	float3 gridColor = dd::colors::Gray;
+	Model* model;
+
+	std::string modelName = "BakerHouse.fbx";
 };
