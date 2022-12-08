@@ -18,6 +18,7 @@ bool ModuleTexture::Init()
 		printf("ERROR Init TEXTURE");
 	}
 
+
 	return true;
 }
 
@@ -27,7 +28,7 @@ update_status ModuleTexture::Update()
 }
 
 
-bool ModuleTexture::Load(TextureData& result)
+bool ModuleTexture::Load(TextureData &result)
 {
 	std::wstring wPath = std::wstring(result.fileName.begin(), result.fileName.end());
 
@@ -67,7 +68,7 @@ bool ModuleTexture::Load(TextureData& result)
 	FlipRotate(img->GetImages(), img->GetImageCount(), img->GetMetadata(), TEX_FR_FLIP_VERTICAL, *imageTexture);
 
 	GLuint texture = result.texture;
-	if (result.texture == NULL) glGenTextures(1, &texture);
+	if(result.texture == NULL) glGenTextures(1, &texture);
 
 	glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -108,7 +109,7 @@ bool ModuleTexture::Load(TextureData& result)
 	}
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, imageTexture->GetMetadata().width, imageTexture->GetMetadata().height, 0, format, type, imageTexture->GetPixels());
-	if (result.options.MipMap) glGenerateMipmap(GL_TEXTURE_2D);
+	if(result.options.MipMap) glGenerateMipmap(GL_TEXTURE_2D);
 
 	result.texture = texture;
 	result.metadata = imageTexture->GetMetadata();

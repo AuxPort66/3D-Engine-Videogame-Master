@@ -90,7 +90,7 @@ void Mesh::CreateVAO()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * num_vertices));
 }
 
-void Mesh::Draw()
+void Mesh::Draw(const std::vector<TextureData>& model_textures)
 {
 	unsigned program = App->program->program;
 	const float4x4& view = App->camera->GetViewMatrix();
@@ -101,7 +101,15 @@ void Mesh::Draw()
 	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 	glActiveTexture(GL_TEXTURE0);
-	
+	if (model_textures.size() > 0)
+	{
+		glBindTexture(GL_TEXTURE_2D, model_textures[material_index].texture);
+	}
+	else
+	{
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, nullptr);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);

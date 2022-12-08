@@ -15,7 +15,7 @@ public:
 
 	void CreateVAO();
 
-	void Draw();
+	void Draw(const std::vector<TextureData>& model_textures);
 
 	void CleanUp();
 

@@ -19,6 +19,7 @@ public:
 
 	void DrawMeshes();
 
+	inline std::vector<TextureData>& GetTextures() { return mTextures; };
 	inline std::vector<Mesh>& GetMeshes() { return mMeshes; };
 
 	inline float3 GetPos() { return position; };
@@ -32,6 +33,7 @@ public:
 	float4x4 GetmatrixModel();
 
 private:
+	std::vector<TextureData> mTextures;
 	std::vector<Mesh> mMeshes;
 
 	float3 position = float3::zero;

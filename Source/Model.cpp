@@ -10,6 +10,15 @@
 
 void Model::Load(const char* file_name)
 {
+	for (Mesh& mesh : mMeshes) {
+		mesh.CleanUp();
+	}
+	mMeshes.clear();
+	for (TextureData texture : mTextures) {
+		glDeleteTextures(1, &texture.texture);
+	}
+	mTextures.clear();
+
 	const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene)
 	{
@@ -26,6 +35,27 @@ void Model::Load(const char* file_name)
 void Model::LoadTextures(aiMaterial** materials, unsigned int numMaterials, const char* file_model)
 {
 
+	aiString file;
+	mTextures.reserve(numMaterials);
+	for (unsigned i = 0; i < numMaterials; ++i)
+	{
+		if (materials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
+		{
+			TextureData material;
+			material.fileName = file.data;
+
+			if (App->texture->Load(material)) {
+				mTextures.push_back(material);
+				continue;
+			}
+
+			material.fileName = "../Source/assets/textures/" + std::string(file.data);
+			if (App->texture->Load(material))
+			{
+				mTextures.push_back(material);
+			}
+		}
+	}
 }
 
 void Model::LoadMeshes(aiMesh** meshes, unsigned int numMeshes)
@@ -43,7 +73,7 @@ void Model::DrawMeshes() {
 
 	for (unsigned i = 0; i < mMeshes.size(); ++i) {
 
-		mMeshes[i].Draw();
+		mMeshes[i].Draw(mTextures);
 	}
 }
 
