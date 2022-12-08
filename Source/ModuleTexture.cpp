@@ -37,11 +37,31 @@ bool ModuleTexture::Load(TextureData& result)
 	ScratchImage* img = new DirectX::ScratchImage;
 	imageTexture = new DirectX::ScratchImage;
 
-	
-	HRESULT hr = LoadFromWICFile(wPath.c_str(), WIC_FLAGS_NONE, &metaData, *img);
-	if (FAILED(hr)) {
+	HRESULT hr;
 
-		return 0;
+	if (extension == ".dds") {
+
+		hr = LoadFromDDSFile(wPath.c_str(), DirectX::DDS_FLAGS_NONE, &metaData, *img);
+		if (FAILED(hr)) {
+
+			return 0;
+		}
+	}
+	else if (extension == ".tga") {
+
+		hr = LoadFromTGAFile(wPath.c_str(), &metaData, *img);
+		if (FAILED(hr)) {
+
+			return 0;
+		}
+	}
+	else {
+
+		hr = LoadFromWICFile(wPath.c_str(), WIC_FLAGS_NONE, &metaData, *img);
+		if (FAILED(hr)) {
+
+			return 0;
+		}
 	}
 
 	FlipRotate(img->GetImages(), img->GetImageCount(), img->GetMetadata(), TEX_FR_FLIP_VERTICAL, *imageTexture);
