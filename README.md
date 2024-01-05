@@ -1,6 +1,8 @@
 # 3D Engine Videogame Master
 
-First assignment  of the UPC SCHOOL Triple AAA Programming Master 2022-2023
+This is the first project of the UPC SCHOOL AAA Programming Master 2022-2023.
+
+With this project you can load 3D models and view them with a dynamic camera, this constitutes the bases of a 3D Engine from scratch (Projection, 3D Space, File Loading, Rendering, Inputs, etc).
 
 See license file for a correct use of this software. 
 
