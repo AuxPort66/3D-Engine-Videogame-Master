@@ -6,6 +6,12 @@ With this project you can load 3D models and view them with a dynamic camera, th
 
 See license file for a correct use of this software. 
 
+<p align="center">
+   <img src="https://github.com/AuxPort66/3D-Engine-Videogame-Master/assets/93783740/242a1c3e-162b-49e7-ab3e-e84f365e2439" align="center" width="290" height="230">
+   <img src="https://github.com/AuxPort66/3D-Engine-Videogame-Master/assets/93783740/fcfd30cb-2535-4cca-8c14-a48f28163fd1" align="center" width="290" height="230">
+   <img src="https://github.com/AuxPort66/3D-Engine-Videogame-Master/assets/93783740/8d466feb-d152-478a-894c-3c28815363ad" align="center" width="290" height="230">
+</p>
+
 ## Camera controls:
 - Right mouse button/Arrow keys > rotate camera
 - Right mouse button + ALTL > orbit in the model
